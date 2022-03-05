@@ -22,7 +22,7 @@ from twisted.conch.insults import insults
 from twisted.internet import reactor, protocol, defer, endpoints
 from twisted.python import log
 from zope.interface import implements
-import sys, os, random, time, socket, thread, binascii, struct, unicodedata
+import sys, os, random, time, socket, threading, binascii, struct, unicodedata
 from datetime import datetime
 
 ###
@@ -203,12 +203,12 @@ class tPROXY(Protocol):
 		self.transport.write(data)
 		self.transport.loseConnection()
 
-class uDUMP(DatagramProtocol):
-	def connectionMade(self):
-		logprint("[honeypot.HoneyPotDUMPFactory] New connection: %s:%s (%s:%s) [Session: %d]" % \
-		(self.transport.getPeer().host, self.transport.getPeer().port, self.transport.getHost().host, self.transport.getHost().port, self.transport.sessionno))
-	def datagramReceived(self, data, (host, port)):
-		self.transport.loseConnection()
+#class uDUMP(DatagramProtocol):
+#	def connectionMade(self):
+#		logprint("[honeypot.HoneyPotDUMPFactory] New connection: %s:%s (%s:%s) [Session: %d]" % \
+#		(self.transport.getPeer().host, self.transport.getPeer().port, self.transport.getHost().host, self.transport.getHost().port, self.transport.sessionno))
+#	def datagramReceived(self, data, (host, port)):
+#		self.transport.loseConnection()
 
 
 random.seed()
@@ -222,7 +222,7 @@ else:
 
 stdoutprint("[INFO] Checking Ports...")
 
-import ConfigParser
+import configparser
 
 cfg = config()
 if cfg.has_option('honeypot_listen', 'listen_addr'):
@@ -254,7 +254,7 @@ for section in cfg.sections():
 						try:
 							c = ('%s.tcp%s' % (__name__, port))
 						except ImportError:
-							print 'Import Error'
+							print('Import Error')
 						
 #						f.protocol = c
 #						stdoutprint("Factory Protocol: %s" % (f.protocol))
@@ -307,7 +307,7 @@ for section in cfg.sections():
 						try:
 							c = ('%s.tcp%s' % (__name__, port))
 						except ImportError:
-							print 'Import Error'
+							print('Import Error')
 						
 #						f.protocol = c
 #						stdoutprint("Factory Protocol: %s" % (f.protocol))
