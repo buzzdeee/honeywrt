@@ -247,7 +247,7 @@ for section in cfg.sections():
 				
 				if os.path.isfile(file):
 					with open(file, 'r') as filename:
-						execfile(file)
+						exec(open(file).read())
 #						f = protocol.Factory()
 #						stdoutprint("Factory TCP: %s" % (f))
 						
@@ -300,7 +300,7 @@ for section in cfg.sections():
 				
 				if os.path.isfile(file):
 					with open(file, 'r') as filename:
-						execfile(file)
+						exec(open(file).read())
 #						f = protocol.Factory()
 #						stdoutprint("Factory TCP: %s" % (f))
 						

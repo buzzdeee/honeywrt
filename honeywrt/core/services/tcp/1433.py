@@ -24,19 +24,19 @@ class tcp1433(Protocol):
 						maj, minor = struct.unpack('!LH', data[p + 8:p + l + 8])
 						tds_response = tds_response_a + binascii.hexlify(data[p + 8:p + l + 8]) + '0200'
 						tds_response_created = 1
-#						print "\tVersion:\n\t\tMaj: %s\n\t\tMin: %s" % (hex(socket.ntohl(maj)), hex(socket.ntohl(minor)))
+#						print("\tVersion:\n\t\tMaj: %s\n\t\tMin: %s" % (hex(socket.ntohl(maj)), hex(socket.ntohl(minor))))
 					if tokentype == 1:
 						enc, = struct.unpack('!B', data[p + 8:p + l + 8])
-#						print "\tEncryption: ", enctype[enc]
+#						print("\tEncryption: ", enctype[enc])
 					if (tokentype == 2) & (l > 1):
 						logprint("")
-#						print "\tInstance: ", data[p + 8:p + l + 8]
+#						print("\tInstance: ", data[p + 8:p + l + 8])
 					if tokentype == 3:
 						threadid, = struct.unpack('!L', data[p + 8:p + l + 8])
-#						print "\tThread ID: ", threadid
+#						print("\tThread ID: ", threadid)
 					if tokentype == 4:
 						mars, = struct.unpack('!B', data[p + 8:p + l + 8])
-#						print "\tMARS: ", marstype[mars]
+#						print("\tMARS: ", marstype[mars])
 					p1 = p2 - 1
 					p2 = p1 + 6
 				if tds_response_created == 0:
@@ -71,7 +71,7 @@ class tcp1433(Protocol):
 									b = ord(byte) ^ 0xa5
 									reverse_b = (b & 0xf) << 4 | (b & 0xf0) >> 4
 									pw = pw + chr(reverse_b)
-								print '\t%s: %s' % (n, pw.encode("utf-8"))
+								print('\t%s: %s' % (n, pw.encode("utf-8")))
 							else:
 								s = data[o + 8:o + (2 * l) + 8]
 								logprint("[HoneyPotTransport,%s,%s] %s: %s" % (self.transport.sessionno, self.transport.getPeer().host, n, s.encode("utf-8")))
